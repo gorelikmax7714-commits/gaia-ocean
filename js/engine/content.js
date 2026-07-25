@@ -12,8 +12,8 @@ export function validateContent(json) {
   const errors = [];
   if (!Array.isArray(json.phonics)) errors.push('phonics: must be an array');
   else json.phonics.forEach((p, i) => {
-    if (typeof p.letter !== 'string') errors.push(`phonics[${i}]: missing "letter"`);
-    if (typeof p.sound !== 'string') errors.push(`phonics[${i}]: missing "sound"`);
+    if (typeof p.letter !== 'string' || p.letter.length === 0) errors.push(`phonics[${i}]: missing "letter"`);
+    if (typeof p.sound !== 'string' || p.sound.length === 0) errors.push(`phonics[${i}]: missing "sound"`);
     checkItem(p, `phonics[${i}]`, errors);
   });
   for (const section of ['cvc', 'vocab']) {

@@ -18,6 +18,14 @@ test('validator rejects item missing emoji', () => {
   assert.match(res.errors[0], /phonics\[0\]/);
 });
 
+test('validator rejects empty letter or sound', () => {
+  const bad = { ...json, phonics: [{ letter: '', sound: '', word: 'sun', he: 'שמש', emoji: '☀️' }] };
+  const res = validateContent(bad);
+  assert.equal(res.ok, false);
+  assert.ok(res.errors.some((e) => e.includes('letter')));
+  assert.ok(res.errors.some((e) => e.includes('sound')));
+});
+
 test('selectors return expected shapes', () => {
   assert.ok(phonicsItems(json).length >= 20);
   assert.ok(cvcWords(json, 'a').every((w) => w.word.includes('a')));
