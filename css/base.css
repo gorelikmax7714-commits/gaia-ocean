@@ -73,3 +73,29 @@ h1 { color: var(--ocean-deep); font-size: 1.6rem; text-align: center; }
 }
 .level--locked { background: #d7dbe0; cursor: default; }
 button.badge { border: none; cursor: pointer; font-family: inherit; font-size: 1rem; }
+.ltr { direction: ltr; }
+.game-card { margin-top: 10px; text-align: center; }
+.question { font-size: 2.2rem; margin: 12px 0; }
+.progress-bar { flex: 1; height: 12px; background: rgba(255,255,255,.4); border-radius: 999px; margin-inline-start: 10px; }
+.progress-fill { height: 100%; background: var(--star); border-radius: 999px; transition: width .3s; }
+.choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.choice {
+  border: none; border-radius: var(--radius); padding: 18px; font-size: 1.6rem; font-weight: 700;
+  background: var(--ocean-light); cursor: pointer; font-family: inherit;
+}
+.choice--bubble { border-radius: 50%; aspect-ratio: 1; }
+.choice--right { background: var(--ok); color: #fff; }
+.choice--wrong { background: var(--coral); color: #fff; animation: shake .3s; }
+.choice--letter { font-size: 1.8rem; text-transform: lowercase; }
+.vertical { font-size: 2.4rem; font-weight: 700; width: fit-content; margin: 0 auto; text-align: right; }
+.vertical-line { border-top: 4px solid #123; margin: 6px 0; }
+.vertical-input { font-size: 2rem; width: 140px; text-align: center; border: 3px solid var(--ocean-light); border-radius: 12px; font-family: inherit; }
+.big-emoji { font-size: 3.4rem; }
+.he-hint { font-size: 1.2rem; color: var(--ocean-deep); font-weight: 700; margin: 8px 0; }
+.slots { display: flex; gap: 8px; justify-content: center; margin: 14px 0; }
+.slot { width: 46px; height: 54px; border-bottom: 4px solid var(--ocean-mid); font-size: 2rem; font-weight: 700; }
+.letter-bank { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.stars-earned { font-size: 3rem; margin: 10px 0; }
+.pet-holder.small { width: 140px; height: 140px; }
+.feedback { text-align: center; color: #fff; font-weight: 700; font-size: 1.15rem; min-height: 1.5em; margin-top: 10px; }
+.reward .btn { margin-top: 10px; }

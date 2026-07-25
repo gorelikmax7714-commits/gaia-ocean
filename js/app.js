@@ -30,7 +30,7 @@ function renderCurrent(ctx) {
   render(root, ctx, route.params);
 }
 
-export function boot() {
+export async function boot() {
   const ctx = {
     state: loadState(window.localStorage),
     update(next) {
@@ -38,6 +38,7 @@ export function boot() {
       saveState(window.localStorage, next);
     },
   };
+  ctx.content = await fetch('data/english.json').then((r) => r.json()).catch(() => ({ phonics: [], cvc: {}, vocab: {} }));
   window.addEventListener('hashchange', () => renderCurrent(ctx));
   renderCurrent(ctx);
 }
