@@ -40,10 +40,20 @@ export async function boot() {
     },
   };
   ctx.content = await fetch('data/english.json').then((r) => r.json()).catch(() => ({ phonics: [], cvc: {}, vocab: {} }));
+  let syncing = false;
   const trySync = async () => {
-    const { remaining } = await flush(ctx.state.syncQueue, postToSheet);
-    if (remaining.length !== ctx.state.syncQueue.length) {
-      ctx.update({ ...ctx.state, syncQueue: remaining });
+    if (syncing) return;
+    syncing = true;
+    try {
+      const snapshot = ctx.state.syncQueue;
+      const { remaining } = await flush(snapshot, postToSheet);
+      if (remaining.length !== snapshot.length) {
+        // Events enqueued during the network round-trip must survive the flush.
+        const added = ctx.state.syncQueue.slice(snapshot.length);
+        ctx.update({ ...ctx.state, syncQueue: [...remaining, ...added] });
+      }
+    } finally {
+      syncing = false;
     }
   };
   trySync();
