@@ -1,0 +1,94 @@
+{
+  "phonics": [
+    { "letter": "A", "sound": "a", "word": "apple", "he": "תפוח", "emoji": "🍎" },
+    { "letter": "B", "sound": "b", "word": "ball", "he": "כדור", "emoji": "⚽" },
+    { "letter": "C", "sound": "c", "word": "cat", "he": "חתול", "emoji": "🐱" },
+    { "letter": "D", "sound": "d", "word": "dog", "he": "כלב", "emoji": "🐶" },
+    { "letter": "E", "sound": "e", "word": "egg", "he": "ביצה", "emoji": "🥚" },
+    { "letter": "F", "sound": "f", "word": "fish", "he": "דג", "emoji": "🐟" },
+    { "letter": "G", "sound": "g", "word": "goat", "he": "עז", "emoji": "🐐" },
+    { "letter": "H", "sound": "h", "word": "hat", "he": "כובע", "emoji": "🎩" },
+    { "letter": "I", "sound": "i", "word": "igloo", "he": "איגלו", "emoji": "🧊" },
+    { "letter": "J", "sound": "j", "word": "juice", "he": "מיץ", "emoji": "🧃" },
+    { "letter": "K", "sound": "k", "word": "kite", "he": "עפיפון", "emoji": "🪁" },
+    { "letter": "L", "sound": "l", "word": "lion", "he": "אריה", "emoji": "🦁" },
+    { "letter": "M", "sound": "m", "word": "moon", "he": "ירח", "emoji": "🌙" },
+    { "letter": "N", "sound": "n", "word": "nose", "he": "אף", "emoji": "👃" },
+    { "letter": "O", "sound": "o", "word": "octopus", "he": "תמנון", "emoji": "🐙" },
+    { "letter": "P", "sound": "p", "word": "pizza", "he": "פיצה", "emoji": "🍕" },
+    { "letter": "Q", "sound": "q", "word": "queen", "he": "מלכה", "emoji": "👑" },
+    { "letter": "R", "sound": "r", "word": "rain", "he": "גשם", "emoji": "🌧️" },
+    { "letter": "S", "sound": "s", "word": "sun", "he": "שמש", "emoji": "☀️" },
+    { "letter": "T", "sound": "t", "word": "turtle", "he": "צב", "emoji": "🐢" },
+    { "letter": "U", "sound": "u", "word": "umbrella", "he": "מטריה", "emoji": "☂️" },
+    { "letter": "V", "sound": "v", "word": "violin", "he": "כינור", "emoji": "🎻" },
+    { "letter": "W", "sound": "w", "word": "whale", "he": "לוויתן", "emoji": "🐋" },
+    { "letter": "X", "sound": "x", "word": "box", "he": "קופסה", "emoji": "📦" },
+    { "letter": "Y", "sound": "y", "word": "yo-yo", "he": "יויו", "emoji": "🪀" },
+    { "letter": "Z", "sound": "z", "word": "zebra", "he": "זברה", "emoji": "🦓" }
+  ],
+  "cvc": {
+    "a": [
+      { "word": "cat", "he": "חתול", "emoji": "🐱" },
+      { "word": "hat", "he": "כובע", "emoji": "🎩" },
+      { "word": "bag", "he": "תיק", "emoji": "🎒" },
+      { "word": "map", "he": "מפה", "emoji": "🗺️" },
+      { "word": "jam", "he": "ריבה", "emoji": "🍓" },
+      { "word": "fan", "he": "מאוורר", "emoji": "🪭" }
+    ],
+    "o": [
+      { "word": "dog", "he": "כלב", "emoji": "🐶" },
+      { "word": "box", "he": "קופסה", "emoji": "📦" },
+      { "word": "top", "he": "סביבון", "emoji": "🪀" },
+      { "word": "pot", "he": "סיר", "emoji": "🍲" },
+      { "word": "fox", "he": "שועל", "emoji": "🦊" },
+      { "word": "log", "he": "בול עץ", "emoji": "🪵" }
+    ],
+    "u": [
+      { "word": "sun", "he": "שמש", "emoji": "☀️" },
+      { "word": "bus", "he": "אוטובוס", "emoji": "🚌" },
+      { "word": "cup", "he": "כוס", "emoji": "🥤" },
+      { "word": "bug", "he": "חיפושית", "emoji": "🐞" },
+      { "word": "nut", "he": "אגוז", "emoji": "🥜" },
+      { "word": "rug", "he": "שטיח", "emoji": "🧶" }
+    ],
+    "e": [
+      { "word": "bed", "he": "מיטה", "emoji": "🛏️" },
+      { "word": "pen", "he": "עט", "emoji": "🖊️" },
+      { "word": "net", "he": "רשת", "emoji": "🥅" },
+      { "word": "ten", "he": "עשר", "emoji": "🔟" },
+      { "word": "red", "he": "אדום", "emoji": "🔴" },
+      { "word": "leg", "he": "רגל", "emoji": "🦵" }
+    ],
+    "i": [
+      { "word": "pig", "he": "חזיר", "emoji": "🐷" },
+      { "word": "fish", "he": "דג", "emoji": "🐟" },
+      { "word": "lip", "he": "שפה", "emoji": "👄" },
+      { "word": "six", "he": "שש", "emoji": "6️⃣" },
+      { "word": "pin", "he": "סיכה", "emoji": "📌" },
+      { "word": "milk", "he": "חלב", "emoji": "🥛" }
+    ]
+  },
+  "vocab": {
+    "sea": [
+      { "word": "fish", "he": "דג", "emoji": "🐟" },
+      { "word": "whale", "he": "לוויתן", "emoji": "🐋" },
+      { "word": "crab", "he": "סרטן", "emoji": "🦀" },
+      { "word": "shell", "he": "צדף", "emoji": "🐚" },
+      { "word": "star", "he": "כוכב ים", "emoji": "⭐" },
+      { "word": "wave", "he": "גל", "emoji": "🌊" },
+      { "word": "boat", "he": "סירה", "emoji": "⛵" },
+      { "word": "shark", "he": "כריש", "emoji": "🦈" }
+    ],
+    "colors": [
+      { "word": "red", "he": "אדום", "emoji": "🔴" },
+      { "word": "blue", "he": "כחול", "emoji": "🔵" },
+      { "word": "green", "he": "ירוק", "emoji": "🟢" },
+      { "word": "yellow", "he": "צהוב", "emoji": "🟡" },
+      { "word": "pink", "he": "ורוד", "emoji": "🩷" },
+      { "word": "purple", "he": "סגול", "emoji": "🟣" },
+      { "word": "orange", "he": "כתום", "emoji": "🟠" },
+      { "word": "white", "he": "לבן", "emoji": "⚪" }
+    ]
+  }
+}
