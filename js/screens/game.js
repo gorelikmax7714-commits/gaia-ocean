@@ -52,11 +52,14 @@ export function renderGame(root, ctx, { region, level }) {
   const exercises = [...fresh, ...replays];
   let session = { index: 0, correct: 0, wrongKeys: [] };
   let firstTry = true;
+  let locked = false;
+  let quitting = false;
 
   const showExercise = () => {
     if (session.index >= exercises.length) return finish();
     const ex = exercises[session.index];
     firstTry = true;
+    locked = false;
     root.innerHTML = `
       <header class="row hud">
         <button class="badge" id="quit">✖</button>
@@ -64,13 +67,15 @@ export function renderGame(root, ctx, { region, level }) {
       </header>
       <section class="card game-card" id="stage"></section>
       <p class="feedback" aria-live="polite"></p>`;
-    root.querySelector('#quit').addEventListener('click', () => navigate('#map'));
+    root.querySelector('#quit').addEventListener('click', () => { quitting = true; navigate('#map'); });
     RENDERERS[ex.kind](root.querySelector('#stage'), ex, handleAnswer(ex));
   };
 
   const handleAnswer = (ex) => (isCorrect) => {
+    if (locked) return;
     const feedback = root.querySelector('.feedback');
     if (isCorrect) {
+      locked = true;
       sfx('correct');
       // A first-try success on a tracked mistake counts toward graduation.
       if (firstTry) {
@@ -80,7 +85,7 @@ export function renderGame(root, ctx, { region, level }) {
         });
       }
       session = applyAnswer(session, firstTry, ex.srsKey);
-      setTimeout(showExercise, 500);
+      setTimeout(() => { if (!quitting) showExercise(); }, 500);
     } else {
       sfx('wrong');
       if (firstTry) session = { ...session, wrongKeys: applyAnswer(session, false, ex.srsKey).wrongKeys };
