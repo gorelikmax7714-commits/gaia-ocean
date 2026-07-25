@@ -63,3 +63,8 @@ test('mulPair builds the exact requested exercise', () => {
   assert.equal(ex.answer, 56);
   assert.ok(ex.choices.includes(56));
 });
+
+test('verticalExercise rejects digits < 2', () => {
+  const rng = lcg(3);
+  assert.throws(() => verticalExercise({ digits: 1, op: '+' }, rng), /digits must be >= 2/);
+});

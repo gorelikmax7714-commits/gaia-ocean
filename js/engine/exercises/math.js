@@ -41,6 +41,7 @@ export function mulPair(a, b, rng) {
 }
 
 export function verticalExercise({ digits, op }, rng) {
+  if (digits < 2) throw new Error('digits must be >= 2');
   const max = 10 ** digits - 1;
   let a = int(10, max, rng);
   let b = int(10, max, rng);
