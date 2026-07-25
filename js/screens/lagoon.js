@@ -5,6 +5,10 @@ import { localDateISO } from '../storage.js';
 import { petSvg } from '../../assets/pet.js';
 import { sfx } from '../audio.js';
 
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
+
 const COLOR_VALUES = { pink: '#ff8fc7', turquoise: '#40d4c4', purple: '#b28ff5', gold: '#ffd23f' };
 
 const MOOD_LINES = {
@@ -28,9 +32,9 @@ export function renderLagoon(root, ctx) {
     </header>
     <section class="lagoon center">
       <div class="pet-holder">${petSvg(stage.id, color, mood)}</div>
-      <p class="mood-line">${MOOD_LINES[mood](state.profile.petName)}</p>
+      <p class="mood-line">${MOOD_LINES[mood](esc(state.profile.petName))}</p>
       <button class="btn btn--big btn--coral" id="go-adventure">🗺️ הרפתקה!</button>
-      <button class="btn" id="feed">🍤 להאכיל את ${state.profile.petName} (⭐${FEED_COST})</button>
+      <button class="btn" id="feed">🍤 להאכיל את ${esc(state.profile.petName)} (⭐${FEED_COST})</button>
       <p class="feed-msg" aria-live="polite"></p>
     </section>`;
 
