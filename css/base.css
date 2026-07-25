@@ -35,3 +35,21 @@ h1 { color: var(--ocean-deep); font-size: 1.6rem; text-align: center; }
 .btn--coral { background: var(--coral); }
 .row { display: flex; gap: 10px; align-items: center; justify-content: center; }
 .badge { background: #fff; border-radius: 999px; padding: 6px 14px; font-weight: 700; }
+.center { text-align: center; }
+.subtitle { text-align: center; color: var(--ocean-mid); font-weight: 700; margin: 8px 0 16px; }
+.pin-dots { margin: 16px 0; min-height: 24px; }
+.dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--ocean-mid); display: inline-block; }
+.dot--full { background: var(--ocean-mid); }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.key { font-size: 1.6rem; padding: 14px; border: none; border-radius: var(--radius); background: #fff; font-weight: 700; cursor: pointer; }
+.key:active { background: var(--ocean-light); }
+.egg { font-size: 6rem; margin: 24px auto; cursor: pointer; width: fit-content; }
+.egg--shake { animation: shake .3s; }
+@keyframes shake { 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
+.pet-preview { font-size: 5rem; margin: 12px 0; }
+.name-input {
+  width: 100%; padding: 14px; font-size: 1.3rem; text-align: center;
+  border: 3px solid var(--ocean-light); border-radius: var(--radius); font-family: inherit;
+}
+.color-chip { width: 44px; height: 44px; border-radius: 50%; border: 4px solid transparent; cursor: pointer; }
+.color-chip--on { border-color: var(--ocean-deep); }
