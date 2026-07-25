@@ -8,12 +8,22 @@ function doPost(e) {
   try {
     const props = PropertiesService.getScriptProperties();
     const payload = JSON.parse(e.postData.contents);
-    if (payload.token !== props.getProperty('SYNC_TOKEN')) {
+    const expected = props.getProperty('SYNC_TOKEN');
+    if (!expected || payload.token !== expected) {
       return json_({ ok: false, error: 'bad token' });
     }
     const sheet = sessionsSheet_(props.getProperty('SHEET_ID'));
     const rows = (payload.events || []).map(function (ev) {
-      return [new Date(), ev.date, ev.region, ev.level, ev.correct, ev.total, ev.stars, (ev.wrongKeys || []).join(', ')];
+      return [
+        new Date(),
+        safeCell_(ev.date, 10),
+        safeCell_(ev.region, 20),
+        Number(ev.level) || 0,
+        Number(ev.correct) || 0,
+        Number(ev.total) || 0,
+        Number(ev.stars) || 0,
+        safeCell_((ev.wrongKeys || []).join(', '), 500),
+      ];
     });
     if (rows.length > 0) {
       sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, HEADERS.length).setValues(rows);
@@ -45,6 +55,12 @@ function logError_(err) {
 
 function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Truncates and defuses formula injection (leading =, +, @) before setValues.
+function safeCell_(value, maxLen) {
+  const s = String(value == null ? '' : value).slice(0, maxLen);
+  return /^[=+@]/.test(s) ? "'" + s : s;
 }
 
 // Run once manually after setting Script Properties: builds the parent summary tab.

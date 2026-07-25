@@ -12,7 +12,7 @@ export function renderReward(root, ctx) {
   if (!reward) return navigate('#map');
   sfx('star');
   const stars = totalStars(ctx.state.progress);
-  const stage = petStage(stars);
+  const stage = petStage(Math.max(stars, 1)); // onboarding already hatched the egg
   const color = COLOR_VALUES[ctx.state.profile.petColor] ?? COLOR_VALUES.pink;
   const praise = PRAISE[stars % PRAISE.length];
   root.innerHTML = `

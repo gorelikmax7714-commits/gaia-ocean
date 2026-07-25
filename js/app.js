@@ -56,6 +56,7 @@ export async function boot() {
       syncing = false;
     }
   };
+  ctx.trySync = trySync;
   trySync();
   window.addEventListener('online', trySync);
   window.addEventListener('hashchange', () => renderCurrent(ctx));

@@ -21,7 +21,7 @@ export function renderLagoon(root, ctx) {
   const { state } = ctx;
   const today = localDateISO(new Date());
   const stars = totalStars(state.progress);
-  const stage = petStage(stars);
+  const stage = petStage(Math.max(stars, 1)); // onboarding already hatched the egg
   const mood = petMood(state.streak.lastPracticeDate, today);
   const color = COLOR_VALUES[state.profile.petColor] ?? COLOR_VALUES.pink;
 

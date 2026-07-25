@@ -1,3 +1,4 @@
+// BUMP this version string on EVERY deploy — cache-first serves stale files until it changes.
 const CACHE = 'gaya-v1';
 const ASSETS = [
   '.', 'index.html', 'manifest.json', 'css/base.css', 'data/english.json',

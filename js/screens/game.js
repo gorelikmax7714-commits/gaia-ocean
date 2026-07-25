@@ -1,7 +1,7 @@
 import { navigate } from '../app.js';
 import { buildLevel, exerciseFromKey } from '../levels.js';
 import { EXERCISES_PER_LEVEL } from '../config.js';
-import { starsForResult, recordLevelResult, updateStreak } from '../engine/progression.js';
+import { starsForResult, recordLevelResult, updateStreak, REGIONS } from '../engine/progression.js';
 import { recordMistake, recordSuccess, dueMistakes } from '../engine/srs.js';
 import { localDateISO } from '../storage.js';
 import { speak, canSpeak, sfx } from '../audio.js';
@@ -40,16 +40,27 @@ export function finishLevel(state, { regionId, levelIndex, correct, total, wrong
 // ---------- DOM shell ----------
 
 export function renderGame(root, ctx, { region, level }) {
+  const regionDef = REGIONS.find((r) => r.id === region);
+  if (!regionDef || !(level >= 0 && level < regionDef.levels)) {
+    navigate('#map');
+    return;
+  }
   const rng = Math.random;
   const today = localDateISO(new Date());
-  // Replay up to 2 due mistakes inside every level (spec §4.6).
-  const replays = dueMistakes(ctx.state.mistakes, today)
-    .slice(0, 2)
-    .map((key) => exerciseFromKey(key, ctx.content, rng))
-    .filter(Boolean);
-  const fresh = buildLevel(region, level, ctx.content, rng)
-    .slice(0, EXERCISES_PER_LEVEL - replays.length);
-  const exercises = [...fresh, ...replays];
+  let exercises;
+  try {
+    // Replay up to 2 due mistakes inside every level (spec §4.6).
+    const replays = dueMistakes(ctx.state.mistakes, today)
+      .slice(0, 2)
+      .map((key) => exerciseFromKey(key, ctx.content, rng))
+      .filter(Boolean);
+    const fresh = buildLevel(region, level, ctx.content, rng)
+      .slice(0, EXERCISES_PER_LEVEL - replays.length);
+    exercises = [...fresh, ...replays];
+  } catch {
+    navigate('#map');
+    return;
+  }
   let session = { index: 0, correct: 0, wrongKeys: [] };
   let firstTry = true;
   let locked = false;
@@ -101,6 +112,7 @@ export function renderGame(root, ctx, { region, level }) {
       wrongKeys: session.wrongKeys, todayISO: localDateISO(new Date()),
     });
     ctx.update(next);
+    ctx.trySync?.();
     navigate('#reward');
   };
 

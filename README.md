@@ -6,3 +6,4 @@
 - **טכנולוגיה:** HTML/CSS/JS בלבד, ללא build. בדיקות: `node --test`
 - **סנכרון להורה:** Google Apps Script → Google Sheets (ראו `apps-script/README.md`)
 - **ספק ותוכנית:** `docs/superpowers/`
+- **עדכון גרסה:** בכל פריסה חדשה יש להעלות את מספר הגרסה ב-`sw.js` (`gaya-v1` → `gaya-v2`) — אחרת הטלפון ימשיך להגיש את הגרסה הישנה מהמטמון
