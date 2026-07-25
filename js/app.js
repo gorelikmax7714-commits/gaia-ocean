@@ -1,4 +1,5 @@
 import { loadState, saveState } from './storage.js';
+import { flush, postToSheet } from './sync.js';
 
 const screens = new Map();
 
@@ -39,6 +40,14 @@ export async function boot() {
     },
   };
   ctx.content = await fetch('data/english.json').then((r) => r.json()).catch(() => ({ phonics: [], cvc: {}, vocab: {} }));
+  const trySync = async () => {
+    const { remaining } = await flush(ctx.state.syncQueue, postToSheet);
+    if (remaining.length !== ctx.state.syncQueue.length) {
+      ctx.update({ ...ctx.state, syncQueue: remaining });
+    }
+  };
+  trySync();
+  window.addEventListener('online', trySync);
   window.addEventListener('hashchange', () => renderCurrent(ctx));
   renderCurrent(ctx);
 }
