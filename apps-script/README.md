@@ -1,12 +1,13 @@
-# GAYA sync backend — deployment
+# GAYA backend — Google Sheet + daily e-mail
 
-1. Create a Google Sheet named "GAYA — התקדמות". Copy its ID from the URL.
-2. script.google.com → New project → paste Code.gs.
-3. Project Settings → Script Properties:
-   - `SHEET_ID` = the sheet id
-   - `SYNC_TOKEN` = the value of SYNC_TOKEN in js/config.js
-4. Run `setupSummary` once (authorize when prompted).
-5. Deploy → New deployment → Web app → Execute as **Me**, access **Anyone**.
-6. Copy the web app URL into `SYNC_URL` in js/config.js, commit, redeploy the PWA.
-7. Test: `curl -L -X POST -H "Content-Type: text/plain" -d "{\"token\":\"<SYNC_TOKEN>\",\"events\":[{\"date\":\"2026-07-25\",\"region\":\"times\",\"level\":0,\"correct\":9,\"total\":10,\"stars\":2,\"wrongKeys\":[]}]}" "<SYNC_URL>"`
-   Expected: `{"ok":true,"saved":1}` and a new row in Sessions.
+1. https://script.google.com → **New project**. Delete the sample code and paste
+   `Code.gs` followed by `Setup.gs` (or the combined `GAYA-backend.gs`).
+2. Select `setupAll` in the toolbar → **Run** → approve the permissions
+   (Sheets, Gmail send, triggers). It creates the sheet "GAYA — התקדמות",
+   the summary tab, and a daily e-mail at 20:00 (Israel time).
+3. **Deploy → New deployment → Web app** — Execute as **Me**, access **Anyone** → Deploy.
+4. Copy the web-app URL into `SYNC_URL` in `js/config.js`, bump the cache in `sw.js`, push.
+5. Test the e-mail any time: run `sendSummaryNow`.
+
+The app sends two kinds of events: `session` (one finished level, with seconds)
+and `usage` (active minutes — counted only while the app is open and touched).

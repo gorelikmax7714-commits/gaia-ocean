@@ -1,5 +1,6 @@
-import { loadState, saveState } from './storage.js';
-import { flush, postToSheet } from './sync.js';
+import { loadState, saveState, localDateISO } from './storage.js';
+import { flush, postToSheet, addUsage } from './sync.js';
+import { startUsageTracker } from './usage.js';
 import { isTopicKey } from './engine/topics.js';
 
 const screens = new Map();
@@ -70,6 +71,14 @@ export async function boot() {
   };
   ctx.trySync = trySync;
   trySync();
+  // Usage minutes → parent's daily summary e-mail.
+  startUsageTracker({
+    onFlush(seconds) {
+      if (!ctx.state.profile) return;
+      ctx.update(addUsage(ctx.state, localDateISO(new Date()), seconds));
+      trySync();
+    },
+  });
   window.addEventListener('online', trySync);
   window.addEventListener('hashchange', () => renderCurrent(ctx));
   renderCurrent(ctx);

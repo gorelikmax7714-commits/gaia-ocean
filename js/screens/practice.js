@@ -27,14 +27,14 @@ export function applyAnswer(session, isCorrect, srsKey) {
 }
 
 export function finishLevel(state, {
-  regionId, levelIndex, correct, total, wrongKeys, guided = 0, todayISO,
+  regionId, levelIndex, correct, total, wrongKeys, guided = 0, seconds = 0, todayISO,
 }) {
   const stars = starsForResult({ correct, total });
   let mistakes = state.mistakes;
   for (const key of wrongKeys) mistakes = recordMistake(mistakes, key, todayISO);
   const withQueue = enqueue(state, {
     type: 'session', date: todayISO, region: regionId, level: levelIndex,
-    correct, total, stars, wrongKeys,
+    correct, total, stars, wrongKeys, seconds,
   });
   const isReview = regionId === 'review';
   return {
@@ -81,6 +81,7 @@ export function renderPractice(root, ctx, { topic, level }) {
   if (exercises.length === 0) { navigate('#lagoon'); return; }
 
   let session = { index: 0, correct: 0, wrongKeys: [], guided: 0 };
+  const startedAt = Date.now();
   let quitting = false;
 
   root.innerHTML = `
@@ -279,6 +280,7 @@ export function renderPractice(root, ctx, { topic, level }) {
       total: exercises.length,
       wrongKeys: session.wrongKeys,
       guided: session.guided,
+      seconds: Math.round((Date.now() - startedAt) / 1000),
       todayISO: localDateISO(new Date()),
     });
     ctx.update(next);

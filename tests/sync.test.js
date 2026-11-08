@@ -34,3 +34,13 @@ test('flush of empty queue is a no-op without posting', async () => {
   assert.equal(called, false);
   assert.deepEqual(res, { sent: 0, remaining: [] });
 });
+
+test('addUsage merges seconds of the same day', async () => {
+  const { addUsage } = await import('../js/sync.js');
+  let s = defaultState();
+  s = addUsage(s, '2026-11-08', 60);
+  s = addUsage(s, '2026-11-08', 45);
+  s = addUsage(s, '2026-11-09', 30);
+  assert.equal(s.syncQueue.length, 2);
+  assert.equal(s.syncQueue[0].seconds, 105);
+});

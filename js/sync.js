@@ -2,6 +2,15 @@ import { SYNC_URL, SYNC_TOKEN } from './config.js';
 
 export const enqueue = (state, event) => ({ ...state, syncQueue: [...state.syncQueue, event] });
 
+// Usage seconds for the same day are merged into one queued event, so the
+// queue stays small even when the phone is offline for days.
+export function addUsage(state, date, seconds) {
+  const i = state.syncQueue.findIndex((e) => e.type === 'usage' && e.date === date);
+  if (i === -1) return enqueue(state, { type: 'usage', date, seconds });
+  const syncQueue = state.syncQueue.map((e, j) => (j === i ? { ...e, seconds: e.seconds + seconds } : e));
+  return { ...state, syncQueue };
+}
+
 export async function flush(queue, postFn) {
   if (queue.length === 0) return { sent: 0, remaining: [] };
   try {
@@ -20,6 +29,7 @@ export async function postToSheet(events) {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ token: SYNC_TOKEN, events }),
+    keepalive: true, // lets the last usage report go out while the app closes
   });
   const body = await res.json().catch(() => ({}));
   return res.ok && body.ok === true;
