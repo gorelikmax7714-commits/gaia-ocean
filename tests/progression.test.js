@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   REGIONS, starsForResult, totalStars, isRegionUnlocked,
-  isLevelUnlocked, recordLevelResult, updateStreak,
+  isLevelUnlocked, recordLevelResult, updateStreak, topicStars,
 } from '../js/engine/progression.js';
 
 test('starsForResult thresholds', () => {
@@ -11,27 +11,29 @@ test('starsForResult thresholds', () => {
   assert.equal(starsForResult({ correct: 3, total: 10 }), 1);
 });
 
-test('region unlock by total stars', () => {
-  const progress = { times: { 0: { stars: 3, attempts: 1 }, 1: { stars: 3, attempts: 2 } } };
+test('all math topics are open; unknown ones are not', () => {
+  const progress = { order: { 0: { stars: 3, attempts: 1 }, 1: { stars: 3, attempts: 2 } } };
   assert.equal(totalStars(progress), 6);
-  assert.equal(isRegionUnlocked(progress, 'sounds'), true);
-  assert.equal(isRegionUnlocked(progress, 'words'), true);   // needs 6
-  assert.equal(isRegionUnlocked(progress, 'vertical'), false); // needs 10
+  assert.equal(topicStars(progress, 'order'), 6);
+  assert.equal(topicStars(progress, 'bars'), 0);
+  for (const r of REGIONS) assert.equal(isRegionUnlocked({}, r.id), true);
+  assert.equal(isRegionUnlocked({}, 'sounds'), false);
+  assert.equal(REGIONS.length, 9);
 });
 
 test('levels unlock sequentially', () => {
-  const progress = { times: { 0: { stars: 1, attempts: 1 } } };
-  assert.equal(isLevelUnlocked(progress, 'times', 0), true);
-  assert.equal(isLevelUnlocked(progress, 'times', 1), true);
-  assert.equal(isLevelUnlocked(progress, 'times', 2), false);
+  const progress = { order: { 0: { stars: 1, attempts: 1 } } };
+  assert.equal(isLevelUnlocked(progress, 'order', 0), true);
+  assert.equal(isLevelUnlocked(progress, 'order', 1), true);
+  assert.equal(isLevelUnlocked(progress, 'order', 2), false);
 });
 
 test('recordLevelResult keeps best stars and is immutable', () => {
-  const before = { times: { 0: { stars: 3, attempts: 1 } } };
-  const after = recordLevelResult(before, 'times', 0, 2);
-  assert.equal(after.times[0].stars, 3);
-  assert.equal(after.times[0].attempts, 2);
-  assert.equal(before.times[0].attempts, 1);
+  const before = { order: { 0: { stars: 3, attempts: 1 } } };
+  const after = recordLevelResult(before, 'order', 0, 2);
+  assert.equal(after.order[0].stars, 3);
+  assert.equal(after.order[0].attempts, 2);
+  assert.equal(before.order[0].attempts, 1);
   assert.notEqual(after, before);
 });
 

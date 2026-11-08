@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { enqueue, flush } from '../js/sync.js';
 import { defaultState } from '../js/storage.js';
 
-const event = { type: 'session', date: '2026-07-25', region: 'times', level: 0, correct: 9, total: 10, stars: 2, wrongKeys: ['mul:7x8'] };
+const event = { type: 'session', date: '2026-07-25', region: 'order', level: 0, correct: 9, total: 10, stars: 2, wrongKeys: ['order:0:1'] };
 
 test('enqueue appends immutably', () => {
   const s0 = defaultState();

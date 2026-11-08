@@ -1,12 +1,12 @@
 {
-  "name": "GAYA — האוקיינוס הקסום",
+  "name": "GAYA — חשבון באוקיינוס",
   "short_name": "GAYA",
   "start_url": ".",
   "display": "fullscreen",
   "dir": "rtl",
   "lang": "he",
-  "background_color": "#0a4d8c",
-  "theme_color": "#0a4d8c",
+  "background_color": "#0b2545",
+  "theme_color": "#0b2545",
   "icons": [
     { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]

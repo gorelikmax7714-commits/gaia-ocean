@@ -1,5 +1,6 @@
 import { loadState, saveState } from './storage.js';
 import { flush, postToSheet } from './sync.js';
+import { isTopicKey } from './engine/topics.js';
 
 const screens = new Map();
 
@@ -12,8 +13,14 @@ const KNOWN_SCREENS = ['onboarding', 'lagoon', 'map', 'reward'];
 export function resolveRoute(hash, hasProfile) {
   if (!hasProfile) return { screen: 'onboarding', params: {} };
   const parts = (hash || '').replace(/^#/, '').split('/').filter(Boolean);
-  if (parts[0] === 'game' && parts.length === 3) {
-    return { screen: 'game', params: { region: parts[1], level: Number(parts[2]) } };
+  if (parts[0] === 'practice' && parts[1] === 'review') {
+    return { screen: 'practice', params: { topic: 'review', level: 0 } };
+  }
+  if (parts[0] === 'practice' && parts.length === 3) {
+    return { screen: 'practice', params: { topic: parts[1], level: Number(parts[2]) } };
+  }
+  if (parts[0] === 'lesson' && parts.length === 2) {
+    return { screen: 'lesson', params: { topic: parts[1] } };
   }
   if (KNOWN_SCREENS.includes(parts[0])) return { screen: parts[0], params: {} };
   return { screen: 'lagoon', params: {} };
@@ -28,6 +35,8 @@ function renderCurrent(ctx) {
   const render = screens.get(route.screen);
   const root = document.getElementById('app');
   root.innerHTML = '';
+  root.dataset.screen = route.screen;
+  window.scrollTo(0, 0);
   render(root, ctx, route.params);
 }
 
@@ -39,7 +48,10 @@ export async function boot() {
       saveState(window.localStorage, next);
     },
   };
-  ctx.content = await fetch('data/english.json').then((r) => r.json()).catch(() => ({ phonics: [], cvc: {}, vocab: {} }));
+  // Old English/times-table mistakes can't be replayed in the math-only app.
+  const cleaned = ctx.state.mistakes.filter((m) => isTopicKey(m.key));
+  if (cleaned.length !== ctx.state.mistakes.length) ctx.update({ ...ctx.state, mistakes: cleaned });
+
   let syncing = false;
   const trySync = async () => {
     if (syncing) return;

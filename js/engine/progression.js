@@ -1,9 +1,8 @@
-export const REGIONS = [
-  { id: 'sounds', he: 'מפרץ הצלילים', emoji: '🐚', unlockStars: 0, levels: 8 },
-  { id: 'times', he: 'שונית הכפל', emoji: '🪸', unlockStars: 0, levels: 10 },
-  { id: 'words', he: 'אי המילים', emoji: '🏝️', unlockStars: 6, levels: 8 },
-  { id: 'vertical', he: 'מערת החיבור', emoji: '🐙', unlockStars: 10, levels: 8 },
-];
+import { TOPICS } from './topics.js';
+
+// Every math topic is open from day one (remedial practice — Gaia picks freely);
+// inside a topic, levels unlock one after another.
+export const REGIONS = TOPICS.map((t) => ({ id: t.id, he: t.he, emoji: t.emoji, unlockStars: 0, levels: 3 }));
 
 export function starsForResult({ correct, total }) {
   if (correct === total) return 3;
@@ -53,3 +52,6 @@ export function updateStreak(streak, todayISO) {
     : 1;
   return { current, best: Math.max(streak.best, current), lastPracticeDate: todayISO };
 }
+
+export const topicStars = (progress, topicId) => Object.values(progress[topicId] ?? {})
+  .reduce((sum, l) => sum + (l.stars ?? 0), 0);

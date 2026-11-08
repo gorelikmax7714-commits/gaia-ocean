@@ -69,20 +69,25 @@ function setupSummary() {
   sessionsSheet_(ss.getId());
   let sheet = ss.getSheetByName('סיכום') || ss.insertSheet('סיכום');
   sheet.clear();
-  sheet.getRange('D1:E5').setValues([
-    ['אזור', 'הצלחה'],
-    ['sounds', '=IFERROR(SUMIF(Sessions!C:C,D2,Sessions!E:E)/SUMIF(Sessions!C:C,D2,Sessions!F:F),"")'],
-    ['times', '=IFERROR(SUMIF(Sessions!C:C,D3,Sessions!E:E)/SUMIF(Sessions!C:C,D3,Sessions!F:F),"")'],
-    ['words', '=IFERROR(SUMIF(Sessions!C:C,D4,Sessions!E:E)/SUMIF(Sessions!C:C,D4,Sessions!F:F),"")'],
-    ['vertical', '=IFERROR(SUMIF(Sessions!C:C,D5,Sessions!E:E)/SUMIF(Sessions!C:C,D5,Sessions!F:F),"")'],
+  sheet.getRange('D1:E10').setValues([
+    ['נושא', 'הצלחה'],
+    ['order', '=IFERROR(SUMIF(Sessions!C:C,D2,Sessions!E:E)/SUMIF(Sessions!C:C,D2,Sessions!F:F),"")'],
+    ['column', '=IFERROR(SUMIF(Sessions!C:C,D3,Sessions!E:E)/SUMIF(Sessions!C:C,D3,Sessions!F:F),"")'],
+    ['mult', '=IFERROR(SUMIF(Sessions!C:C,D4,Sessions!E:E)/SUMIF(Sessions!C:C,D4,Sessions!F:F),"")'],
+    ['remainder', '=IFERROR(SUMIF(Sessions!C:C,D5,Sessions!E:E)/SUMIF(Sessions!C:C,D5,Sessions!F:F),"")'],
+    ['numberline', '=IFERROR(SUMIF(Sessions!C:C,D6,Sessions!E:E)/SUMIF(Sessions!C:C,D6,Sessions!F:F),"")'],
+    ['word', '=IFERROR(SUMIF(Sessions!C:C,D7,Sessions!E:E)/SUMIF(Sessions!C:C,D7,Sessions!F:F),"")'],
+    ['perimeter', '=IFERROR(SUMIF(Sessions!C:C,D8,Sessions!E:E)/SUMIF(Sessions!C:C,D8,Sessions!F:F),"")'],
+    ['shapes', '=IFERROR(SUMIF(Sessions!C:C,D9,Sessions!E:E)/SUMIF(Sessions!C:C,D9,Sessions!F:F),"")'],
+    ['bars', '=IFERROR(SUMIF(Sessions!C:C,D10,Sessions!E:E)/SUMIF(Sessions!C:C,D10,Sessions!F:F),"")'],
   ]);
   sheet.getRange('A1:B6').setValues([
     ['סה"כ תרגולים', '=COUNTA(Sessions!A2:A)'],
     ['תרגולים ב-7 ימים', '=COUNTIF(Sessions!B2:B, ">="&TEXT(TODAY()-6,"yyyy-mm-dd"))'],
     ['כוכבים שנצברו', '=SUM(Sessions!G2:G)'],
     ['אחוז הצלחה כללי', '=IFERROR(ROUND(SUM(Sessions!E2:E)/SUM(Sessions!F2:F)*100,0)&"%","-")'],
-    ['נושא חזק', '=IFERROR(INDEX(D2:D5,MATCH(MAX(E2:E5),E2:E5,0)),"-")'],
-    ['נושא לחיזוק', '=IFERROR(INDEX(D2:D5,MATCH(MIN(E2:E5),E2:E5,0)),"-")'],
+    ['נושא חזק', '=IFERROR(INDEX(D2:D10,MATCH(MAX(E2:E10),E2:E10,0)),"-")'],
+    ['נושא לחיזוק', '=IFERROR(INDEX(D2:D10,MATCH(MIN(E2:E10),E2:E10,0)),"-")'],
   ]);
   sheet.getRange('A1:A6').setFontWeight('bold');
   sheet.setColumnWidth(1, 180);

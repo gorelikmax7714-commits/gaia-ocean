@@ -10,11 +10,16 @@ test('empty hash with profile routes to lagoon', () => {
   assert.deepEqual(resolveRoute('', true), { screen: 'lagoon', params: {} });
 });
 
-test('game route carries region and level params', () => {
-  assert.deepEqual(resolveRoute('#game/times/2', true), {
-    screen: 'game',
-    params: { region: 'times', level: 2 },
+test('practice route carries topic and level params', () => {
+  assert.deepEqual(resolveRoute('#practice/order/2', true), {
+    screen: 'practice',
+    params: { topic: 'order', level: 2 },
   });
+});
+
+test('review and lesson routes', () => {
+  assert.deepEqual(resolveRoute('#practice/review', true), { screen: 'practice', params: { topic: 'review', level: 0 } });
+  assert.deepEqual(resolveRoute('#lesson/perimeter', true), { screen: 'lesson', params: { topic: 'perimeter' } });
 });
 
 test('unknown hash falls back to lagoon', () => {

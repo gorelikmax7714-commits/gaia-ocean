@@ -17,10 +17,10 @@ export function renderOnboarding(root, ctx) {
     root.innerHTML = `
       <section class="card onboard">
         <h1>GAYA</h1>
-        <p class="subtitle">ברוכה הבאה לאוקיינוס הקסום 🌊</p>
+        <p class="subtitle">ברוכה הבאה! כאן מתאמנים בחשבון 🌊</p>
         <p>בחרי קוד סודי בן 4 ספרות — המפתח לממלכה שלך:</p>
         <div class="pin-dots row" aria-label="קוד"></div>
-        <div class="keypad"></div>
+        <div class="keypad ltr"></div>
       </section>`;
     const dots = root.querySelector('.pin-dots');
     const keypad = root.querySelector('.keypad');

@@ -1,42 +1,56 @@
 import { navigate } from '../app.js';
-import {
-  REGIONS, isRegionUnlocked, isLevelUnlocked, totalStars,
-} from '../engine/progression.js';
+import { TOPICS, LEVEL_NAMES } from '../engine/topics.js';
+import { isLevelUnlocked, topicStars } from '../engine/progression.js';
+
+const TEST_BADGE = {
+  need: '<span class="badge badge--need">מהמבחן: צריך תרגול</span>',
+  onway: '<span class="badge badge--onway">מהמבחן: בדרך לשליטה</span>',
+};
 
 export function renderMap(root, ctx) {
   const { progress } = ctx.state;
-  const stars = totalStars(progress);
 
-  const regionCards = REGIONS.map((region) => {
-    const unlocked = isRegionUnlocked(progress, region.id);
-    if (!unlocked) {
-      return `<div class="region region--locked">
-        <span class="region-emoji">🔒</span>
-        <div><h2>${region.he}</h2><p>נפתח ב-⭐${region.unlockStars}</p></div>
-      </div>`;
-    }
-    const levelDots = Array.from({ length: region.levels }, (_, i) => {
-      const levelStars = progress[region.id]?.[i]?.stars ?? 0;
-      const open = isLevelUnlocked(progress, region.id, i);
-      const cls = open ? 'level' : 'level level--locked';
-      const label = open ? (levelStars > 0 ? '⭐'.repeat(levelStars) : String(i + 1)) : '🔒';
-      return `<button class="${cls}" data-region="${region.id}" data-level="${i}" ${open ? '' : 'disabled'}>${label}</button>`;
+  const cards = TOPICS.map((t, idx) => {
+    const got = topicStars(progress, t.id);
+    const levels = [0, 1, 2].map((i) => {
+      const s = progress[t.id]?.[i]?.stars ?? 0;
+      const open = isLevelUnlocked(progress, t.id, i);
+      return `<button class="lvl ${open ? '' : 'lvl--locked'} ${s ? 'lvl--done' : ''}" data-topic="${t.id}" data-level="${i}" ${open ? '' : 'disabled'}>
+        <span class="lvl-name">${open ? LEVEL_NAMES[i] : '🔒'}</span>
+        <span class="lvl-stars">${open ? '★'.repeat(s) + '☆'.repeat(3 - s) : ''}</span>
+      </button>`;
     }).join('');
-    return `<div class="region">
-      <span class="region-emoji">${region.emoji}</span>
-      <div class="region-body"><h2>${region.he}</h2><div class="levels">${levelDots}</div></div>
-    </div>`;
+    return `<article class="topic" style="--i:${idx}">
+      <div class="topic-head">
+        <span class="blob blob--${idx % 5}">${t.emoji}</span>
+        <div class="topic-title">
+          <h2>${t.he}</h2>
+          <p>${t.blurb}</p>
+        </div>
+        <span class="topic-score">${got}/9 ★</span>
+      </div>
+      ${TEST_BADGE[t.test] ?? ''}
+      <div class="lvls">${levels}</div>
+      <button class="link-btn" data-lesson="${t.id}">📖 איך פותרים? שיעור קצר</button>
+    </article>`;
   }).join('');
 
   root.innerHTML = `
-    <header class="row hud">
-      <button class="badge" id="back-home">🏠 הלגונה</button>
-      <span class="badge">⭐ ${stars}</span>
+    <header class="hud">
+      <button class="pill pill--glass" id="back-home">🏠 הבית</button>
+      <span class="pill pill--glass">⭐ ${ctx.state.wallet.stars}</span>
     </header>
-    <section class="map-list">${regionCards}</section>`;
+    <section class="map-hero">
+      <h1>הנושאים שלי</h1>
+      <p>כל הנושאים נבחרו מהמבחן בחשבון של תחילת השנה. בכל נושא — שיעור קצר ו-3 שלבים.</p>
+    </section>
+    <section class="topics">${cards}</section>`;
 
   root.querySelector('#back-home').addEventListener('click', () => navigate('#lagoon'));
-  root.querySelectorAll('.level:not([disabled])').forEach((btn) => {
-    btn.addEventListener('click', () => navigate(`#game/${btn.dataset.region}/${btn.dataset.level}`));
+  root.querySelectorAll('.lvl:not([disabled])').forEach((b) => {
+    b.addEventListener('click', () => navigate(`#practice/${b.dataset.topic}/${b.dataset.level}`));
+  });
+  root.querySelectorAll('[data-lesson]').forEach((b) => {
+    b.addEventListener('click', () => navigate(`#lesson/${b.dataset.lesson}`));
   });
 }
